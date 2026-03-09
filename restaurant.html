@@ -1,0 +1,4008 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YŪGEN 幽玄 — Neo-Kaiseki Fine Dining · Tokyo</title>
+<meta name="description" content="YŪGEN (幽玄) — A 3-Michelin-star neo-kaiseki experience in Roppongi, Tokyo. Where tradition dissolves into the future.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Inter:wght@300;400;500;600&family=Noto+Serif+JP:wght@200;300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   CSS CUSTOM PROPERTIES
+   ============================================================ */
+:root {
+  --black-deep: #050505;
+  --black-primary: #0A0A0A;
+  --black-soft: #111111;
+  --black-card: #0f0f0f;
+  --gold: #C9A84C;
+  --gold-light: #E8D5A3;
+  --gold-dark: #8B7332;
+  --sakura: #F2A6B3;
+  --cyan: #00F0FF;
+  --indigo: #1A0533;
+  --white: #F5F5F0;
+  --silver: #C0C0C0;
+  --silver-dark: #666666;
+  --glass-bg: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-bg-hover: rgba(255, 255, 255, 0.06);
+  --font-heading: 'Cormorant Garamond', serif;
+  --font-body: 'Inter', 'Space Grotesk', sans-serif;
+  --font-jp: 'Noto Serif JP', serif;
+  --font-accent: 'Space Grotesk', sans-serif;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-in-out: cubic-bezier(0.76, 0, 0.24, 1);
+  --transition-smooth: 0.6s var(--ease-out-expo);
+  --transition-fast: 0.3s var(--ease-out-expo);
+}
+
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--black-deep);
+  color: var(--white);
+  overflow-x: hidden;
+  cursor: none;
+  line-height: 1.6;
+}
+
+body.loading {
+  overflow: hidden;
+}
+
+::selection {
+  background: var(--gold);
+  color: var(--black-deep);
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--black-deep);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--gold-dark);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gold);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: none;
+  border: none;
+  background: none;
+  color: inherit;
+}
+
+input, select, textarea {
+  font-family: inherit;
+  cursor: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+/* ============================================================
+   GRAIN / NOISE OVERLAY
+   ============================================================ */
+.grain-overlay {
+  position: fixed;
+  top: -100%;
+  left: -100%;
+  width: 400%;
+  height: 400%;
+  z-index: 99999;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  animation: grainShift 0.5s steps(3) infinite;
+}
+
+@keyframes grainShift {
+  0%, 100% { transform: translate(0, 0); }
+  33% { transform: translate(-5%, -5%); }
+  66% { transform: translate(5%, 5%); }
+}
+
+/* ============================================================
+   CUSTOM CURSOR
+   ============================================================ */
+.cursor-outer {
+  position: fixed;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--gold);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 100000;
+  transform: translate(-50%, -50%);
+  transition: width 0.35s var(--ease-out-expo), height 0.35s var(--ease-out-expo), border-color 0.3s, opacity 0.3s;
+  opacity: 0;
+  mix-blend-mode: difference;
+}
+
+.cursor-inner {
+  position: fixed;
+  width: 6px;
+  height: 6px;
+  background: var(--gold);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 100001;
+  transform: translate(-50%, -50%);
+  transition: width 0.2s var(--ease-out-expo), height 0.2s var(--ease-out-expo), opacity 0.3s;
+  opacity: 0;
+}
+
+.cursor-outer.active {
+  width: 56px;
+  height: 56px;
+  border-color: var(--sakura);
+}
+
+.cursor-inner.active {
+  width: 4px;
+  height: 4px;
+}
+
+.cursor-outer.visible, .cursor-inner.visible {
+  opacity: 1;
+}
+
+/* ============================================================
+   LOADING SCREEN
+   ============================================================ */
+.loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--black-deep);
+  z-index: 90000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+.loading-screen.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.loading-logo-svg {
+  width: 160px;
+  height: 160px;
+  margin-bottom: 30px;
+}
+
+.loading-logo-svg .enso {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 1.2;
+  stroke-linecap: round;
+  stroke-dasharray: 410;
+  stroke-dashoffset: 410;
+  animation: drawEnso 2s var(--ease-out-expo) 0.3s forwards;
+}
+
+.loading-logo-svg .vertical-line {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 0.8;
+  stroke-dasharray: 120;
+  stroke-dashoffset: 120;
+  animation: drawLine 1.5s var(--ease-out-expo) 0.8s forwards;
+}
+
+.loading-logo-svg .diamond {
+  fill: none;
+  stroke: var(--gold-light);
+  stroke-width: 0.8;
+  stroke-dasharray: 50;
+  stroke-dashoffset: 50;
+  animation: drawLine 1s var(--ease-out-expo) 1.2s forwards;
+}
+
+@keyframes drawEnso {
+  to { stroke-dashoffset: 50; }
+}
+
+@keyframes drawLine {
+  to { stroke-dashoffset: 0; }
+}
+
+.loading-text {
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  letter-spacing: 0.5em;
+  color: var(--gold);
+  text-transform: uppercase;
+  opacity: 0;
+  animation: fadeInUp 1s var(--ease-out-expo) 1.5s forwards;
+}
+
+.loading-text-jp {
+  font-family: var(--font-jp);
+  font-size: 0.9rem;
+  letter-spacing: 0.3em;
+  color: var(--gold-dark);
+  margin-top: 8px;
+  opacity: 0;
+  animation: fadeInUp 1s var(--ease-out-expo) 1.8s forwards;
+}
+
+.loading-bar-container {
+  width: 120px;
+  height: 1px;
+  background: rgba(201, 168, 76, 0.15);
+  margin-top: 40px;
+  overflow: hidden;
+  opacity: 0;
+  animation: fadeIn 0.5s ease 0.5s forwards;
+}
+
+.loading-bar {
+  width: 0%;
+  height: 100%;
+  background: var(--gold);
+  animation: loadBar 2.5s var(--ease-in-out) 0.5s forwards;
+}
+
+@keyframes loadBar {
+  to { width: 100%; }
+}
+
+/* ============================================================
+   GLOBAL ANIMATIONS
+   ============================================================ */
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInLeft {
+  from { opacity: 0; transform: translateX(-40px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes fadeInRight {
+  from { opacity: 0; transform: translateX(40px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  33% { transform: translateY(-15px) rotate(1deg); }
+  66% { transform: translateY(-8px) rotate(-0.5deg); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(201, 168, 76, 0.1); }
+  50% { box-shadow: 0 0 40px rgba(201, 168, 76, 0.25); }
+}
+
+@keyframes scrollIndicator {
+  0% { opacity: 0; transform: translateY(-8px); }
+  50% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(8px); }
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes waveMove {
+  0% { transform: translateX(0) translateY(0); }
+  50% { transform: translateX(-25px) translateY(5px); }
+  100% { transform: translateX(0) translateY(0); }
+}
+
+@keyframes revealClip {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+
+@keyframes borderGlow {
+  0%, 100% { border-color: rgba(201, 168, 76, 0.3); }
+  50% { border-color: rgba(201, 168, 76, 0.7); }
+}
+
+/* Scroll-triggered animation classes */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.9s var(--ease-out-expo), transform 0.9s var(--ease-out-expo);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-50px);
+  transition: opacity 0.9s var(--ease-out-expo), transform 0.9s var(--ease-out-expo);
+}
+
+.reveal-left.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.reveal-right {
+  opacity: 0;
+  transform: translateX(50px);
+  transition: opacity 0.9s var(--ease-out-expo), transform 0.9s var(--ease-out-expo);
+}
+
+.reveal-right.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.92);
+  transition: opacity 0.9s var(--ease-out-expo), transform 0.9s var(--ease-out-expo);
+}
+
+.reveal-scale.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.reveal-clip {
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 1.2s var(--ease-out-expo);
+}
+
+.reveal-clip.visible {
+  clip-path: inset(0 0 0 0);
+}
+
+.stagger-1 { transition-delay: 0.1s !important; }
+.stagger-2 { transition-delay: 0.2s !important; }
+.stagger-3 { transition-delay: 0.3s !important; }
+.stagger-4 { transition-delay: 0.4s !important; }
+.stagger-5 { transition-delay: 0.5s !important; }
+.stagger-6 { transition-delay: 0.6s !important; }
+
+/* ============================================================
+   PARTICLE CANVAS
+   ============================================================ */
+#particle-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 24px 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 1000;
+  transition: background 0.5s ease, padding 0.4s ease, backdrop-filter 0.5s ease;
+}
+
+.nav.scrolled {
+  background: rgba(5, 5, 5, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  padding: 16px 48px;
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 1001;
+}
+
+.nav-logo-mark {
+  width: 36px;
+  height: 36px;
+}
+
+.nav-logo-mark .enso {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+}
+
+.nav-logo-text {
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+  font-weight: 400;
+  letter-spacing: 0.25em;
+  color: var(--white);
+  text-transform: uppercase;
+}
+
+.nav-logo-jp {
+  font-family: var(--font-jp);
+  font-size: 0.6rem;
+  color: var(--gold-dark);
+  letter-spacing: 0.15em;
+  margin-top: -2px;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+}
+
+.nav-links a {
+  font-family: var(--font-accent);
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--silver);
+  position: relative;
+  padding: 4px 0;
+  transition: color var(--transition-fast);
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--gold);
+  transition: width var(--transition-smooth);
+}
+
+.nav-links a:hover {
+  color: var(--gold-light);
+}
+
+.nav-links a:hover::after {
+  width: 100%;
+}
+
+.nav-reserve-btn {
+  font-family: var(--font-accent);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid var(--gold);
+  padding: 10px 24px;
+  position: relative;
+  overflow: hidden;
+  transition: color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.nav-reserve-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(201,168,76,0.15), transparent);
+  transition: left 0.5s var(--ease-out-expo);
+}
+
+.nav-reserve-btn:hover::before {
+  left: 100%;
+}
+
+.nav-reserve-btn:hover {
+  border-color: var(--gold-light);
+  color: var(--gold-light);
+}
+
+/* Hamburger */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 6px;
+  z-index: 1001;
+  padding: 8px;
+}
+
+.hamburger span {
+  display: block;
+  width: 28px;
+  height: 1px;
+  background: var(--gold);
+  transition: transform 0.4s var(--ease-out-expo), opacity 0.3s;
+}
+
+.hamburger.active span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* Mobile Menu */
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(5, 5, 5, 0.97);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.mobile-menu.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.mobile-menu a {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 300;
+  letter-spacing: 0.15em;
+  color: var(--white);
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s var(--ease-out-expo), color 0.3s;
+}
+
+.mobile-menu.active a {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.mobile-menu a:nth-child(1) { transition-delay: 0.1s; }
+.mobile-menu a:nth-child(2) { transition-delay: 0.15s; }
+.mobile-menu a:nth-child(3) { transition-delay: 0.2s; }
+.mobile-menu a:nth-child(4) { transition-delay: 0.25s; }
+.mobile-menu a:nth-child(5) { transition-delay: 0.3s; }
+.mobile-menu a:nth-child(6) { transition-delay: 0.35s; }
+.mobile-menu a:nth-child(7) { transition-delay: 0.4s; }
+
+.mobile-menu a:hover {
+  color: var(--gold);
+}
+
+/* ============================================================
+   SECTION COMMON STYLES
+   ============================================================ */
+section {
+  position: relative;
+  z-index: 2;
+}
+
+.section-padding {
+  padding: 140px 48px;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.section-label {
+  font-family: var(--font-accent);
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.section-label::before {
+  content: '';
+  width: 40px;
+  height: 1px;
+  background: var(--gold);
+}
+
+.section-title {
+  font-family: var(--font-heading);
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-weight: 300;
+  line-height: 1.15;
+  color: var(--white);
+  letter-spacing: 0.02em;
+}
+
+.section-title em {
+  font-style: italic;
+  color: var(--gold-light);
+}
+
+.gold-separator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  margin: 80px 0;
+}
+
+.gold-separator .line {
+  width: 80px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.gold-separator .sakura {
+  font-size: 1rem;
+  color: var(--sakura);
+  opacity: 0.6;
+}
+
+/* ============================================================
+   HERO SECTION
+   ============================================================ */
+.hero {
+  position: relative;
+  height: 100vh;
+  min-height: 700px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--black-deep);
+}
+
+.hero-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #0A0A0A 0%, #0d0815 30%, #0A0A0A 60%, #0b0a0d 100%);
+  z-index: 0;
+}
+
+.hero-bg::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 40%;
+  background: linear-gradient(to top, var(--black-deep), transparent);
+  z-index: 1;
+}
+
+.hero-video-placeholder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background:
+    radial-gradient(ellipse at 30% 50%, rgba(26, 5, 51, 0.3) 0%, transparent 60%),
+    radial-gradient(ellipse at 70% 30%, rgba(201, 168, 76, 0.05) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(242, 166, 179, 0.03) 0%, transparent 40%),
+    linear-gradient(180deg, rgba(10,10,10,0.5) 0%, rgba(5,5,5,0.8) 100%);
+  z-index: 0;
+}
+
+/* Floating Kanji */
+.floating-kanji {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.floating-kanji span {
+  position: absolute;
+  font-family: var(--font-jp);
+  color: rgba(201, 168, 76, 0.04);
+  font-size: clamp(3rem, 8vw, 8rem);
+  font-weight: 200;
+  animation: float 12s ease-in-out infinite;
+  user-select: none;
+}
+
+.floating-kanji span:nth-child(1) { top: 10%; left: 5%; animation-delay: 0s; animation-duration: 14s; }
+.floating-kanji span:nth-child(2) { top: 60%; left: 85%; animation-delay: -3s; animation-duration: 16s; }
+.floating-kanji span:nth-child(3) { top: 30%; left: 70%; animation-delay: -6s; animation-duration: 12s; }
+.floating-kanji span:nth-child(4) { top: 75%; left: 15%; animation-delay: -9s; animation-duration: 18s; }
+.floating-kanji span:nth-child(5) { top: 15%; left: 50%; animation-delay: -2s; animation-duration: 15s; }
+.floating-kanji span:nth-child(6) { top: 50%; left: 40%; animation-delay: -7s; animation-duration: 13s; }
+
+.hero-content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  max-width: 900px;
+  padding: 0 24px;
+}
+
+.hero-logo-svg {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 40px;
+  opacity: 0;
+  animation: scaleIn 1.2s var(--ease-out-expo) 3.2s forwards;
+}
+
+.hero-logo-svg .enso {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 1;
+  stroke-linecap: round;
+}
+
+.hero-title {
+  font-family: var(--font-heading);
+  font-size: clamp(4rem, 10vw, 9rem);
+  font-weight: 300;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--white);
+  margin-bottom: 6px;
+  opacity: 0;
+  animation: fadeInUp 1.2s var(--ease-out-expo) 3.4s forwards;
+  text-shadow: 0 0 60px rgba(201, 168, 76, 0.1);
+}
+
+.hero-title-jp {
+  font-family: var(--font-jp);
+  font-size: clamp(1rem, 2.5vw, 1.5rem);
+  font-weight: 200;
+  letter-spacing: 0.5em;
+  color: var(--gold-dark);
+  margin-bottom: 48px;
+  opacity: 0;
+  animation: fadeInUp 1s var(--ease-out-expo) 3.6s forwards;
+}
+
+.hero-tagline {
+  font-family: var(--font-heading);
+  font-size: clamp(1rem, 2vw, 1.4rem);
+  font-weight: 300;
+  font-style: italic;
+  color: var(--silver);
+  letter-spacing: 0.08em;
+  margin-bottom: 56px;
+  opacity: 0;
+  animation: fadeInUp 1s var(--ease-out-expo) 3.8s forwards;
+}
+
+.hero-cta {
+  display: inline-block;
+  font-family: var(--font-accent);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--gold);
+  padding: 18px 48px;
+  border: 1px solid var(--gold);
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  animation: fadeInUp 1s var(--ease-out-expo) 4s forwards, borderGlow 3s ease-in-out infinite 4.5s;
+  transition: color var(--transition-fast), background var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.hero-cta::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(201,168,76,0.08), rgba(232,213,163,0.12), rgba(201,168,76,0.08), transparent);
+  transition: left 0.7s var(--ease-out-expo);
+}
+
+.hero-cta:hover::before {
+  left: 100%;
+}
+
+.hero-cta:hover {
+  background: rgba(201, 168, 76, 0.08);
+  box-shadow: 0 0 40px rgba(201, 168, 76, 0.15), inset 0 0 40px rgba(201, 168, 76, 0.05);
+  color: var(--gold-light);
+}
+
+.hero-scroll-indicator {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  animation: fadeIn 1s ease 4.5s forwards;
+}
+
+.hero-scroll-indicator span {
+  font-family: var(--font-accent);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--silver-dark);
+}
+
+.scroll-arrow {
+  width: 1px;
+  height: 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+.scroll-arrow::after {
+  content: '';
+  position: absolute;
+  top: -40px;
+  left: 0;
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, transparent, var(--gold));
+  animation: scrollIndicator 2s ease-in-out infinite;
+}
+
+/* ============================================================
+   PHILOSOPHY / ABOUT SECTION
+   ============================================================ */
+.philosophy {
+  background: var(--black-primary);
+  position: relative;
+  overflow: hidden;
+}
+
+.philosophy::before {
+  content: '';
+  position: absolute;
+  top: -100px;
+  right: -200px;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(26, 5, 51, 0.2) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.philosophy-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.philosophy-image {
+  position: relative;
+  aspect-ratio: 3/4;
+  overflow: hidden;
+}
+
+.image-placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(145deg, #0d0d0d 0%, #151520 40%, #0d0d0d 70%, #12101a 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.image-placeholder::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background:
+    radial-gradient(ellipse at 30% 40%, rgba(201, 168, 76, 0.04) 0%, transparent 50%),
+    radial-gradient(ellipse at 70% 60%, rgba(242, 166, 179, 0.03) 0%, transparent 50%);
+}
+
+.image-placeholder::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--glass-border);
+}
+
+.image-placeholder-text {
+  font-family: var(--font-accent);
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.08);
+}
+
+.philosophy-image .gold-frame {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  right: 16px;
+  bottom: 16px;
+  border: 1px solid rgba(201, 168, 76, 0.1);
+  pointer-events: none;
+}
+
+.philosophy-text h2 {
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 3.5vw, 3.5rem);
+  font-weight: 300;
+  line-height: 1.2;
+  margin-bottom: 32px;
+  color: var(--white);
+}
+
+.philosophy-text h2 em {
+  color: var(--gold-light);
+  font-style: italic;
+}
+
+.philosophy-text p {
+  font-size: 1rem;
+  line-height: 1.9;
+  color: var(--silver);
+  font-weight: 300;
+  margin-bottom: 20px;
+  max-width: 500px;
+}
+
+.philosophy-text p:last-of-type {
+  margin-bottom: 0;
+}
+
+/* Stats Bar */
+.stats-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  margin-top: 80px;
+  padding-top: 60px;
+  border-top: 1px solid var(--glass-border);
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-number {
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 3vw, 3rem);
+  font-weight: 300;
+  color: var(--gold);
+  margin-bottom: 8px;
+  display: block;
+}
+
+.stat-label {
+  font-family: var(--font-accent);
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--silver-dark);
+}
+
+/* ============================================================
+   MENU / EXPERIENCE SECTION
+   ============================================================ */
+.experience {
+  background: var(--black-deep);
+  position: relative;
+  overflow: hidden;
+}
+
+.experience-header {
+  padding: 140px 48px 60px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.experience-bg-gradient {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg,
+    var(--black-deep) 0%,
+    rgba(26, 5, 51, 0.08) 30%,
+    rgba(26, 5, 51, 0.1) 50%,
+    rgba(26, 5, 51, 0.05) 70%,
+    var(--black-deep) 100%);
+  pointer-events: none;
+}
+
+.horizontal-scroll-wrapper {
+  position: relative;
+  height: 400vh;
+}
+
+.horizontal-scroll-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.horizontal-scroll-track {
+  display: flex;
+  gap: 40px;
+  padding: 0 48px;
+  will-change: transform;
+}
+
+.dish-card {
+  flex-shrink: 0;
+  width: 360px;
+  position: relative;
+  perspective: 1000px;
+}
+
+.dish-card-inner {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  overflow: hidden;
+  transition: transform 0.4s var(--ease-out-expo), box-shadow 0.4s var(--ease-out-expo), border-color 0.4s;
+  position: relative;
+}
+
+.dish-card:hover .dish-card-inner {
+  border-color: rgba(201, 168, 76, 0.2);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 40px rgba(201, 168, 76, 0.05);
+}
+
+.dish-card-image {
+  aspect-ratio: 4/5;
+  background: linear-gradient(145deg, #0e0e12 0%, #14121f 50%, #0e0e12 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.dish-card-image::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 40%, rgba(201, 168, 76, 0.04), transparent 60%);
+}
+
+.dish-card-image .dish-number {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  font-family: var(--font-heading);
+  font-size: 0.8rem;
+  font-weight: 300;
+  color: var(--gold);
+  letter-spacing: 0.1em;
+  opacity: 0.6;
+}
+
+.dish-card-image .dish-number span {
+  font-size: 2rem;
+}
+
+.dish-card-content {
+  padding: 28px;
+}
+
+.dish-name {
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  font-weight: 400;
+  color: var(--white);
+  margin-bottom: 2px;
+}
+
+.dish-name-jp {
+  font-family: var(--font-jp);
+  font-size: 1rem;
+  color: var(--gold-dark);
+  margin-bottom: 16px;
+  font-weight: 300;
+}
+
+.dish-description {
+  font-size: 0.85rem;
+  font-weight: 300;
+  color: var(--silver);
+  font-style: italic;
+  line-height: 1.6;
+}
+
+.dish-card-hover-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 20px 28px;
+  background: linear-gradient(to top, rgba(5,5,5,0.95), transparent);
+  transform: translateY(100%);
+  transition: transform 0.5s var(--ease-out-expo);
+  pointer-events: none;
+}
+
+.dish-card:hover .dish-card-hover-overlay {
+  transform: translateY(0);
+}
+
+.dish-card-hover-overlay span {
+  font-family: var(--font-accent);
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+/* ============================================================
+   CHEFS SECTION
+   ============================================================ */
+.chefs {
+  background: var(--black-primary);
+  position: relative;
+  overflow: hidden;
+}
+
+.chefs::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 800px;
+  height: 800px;
+  background: radial-gradient(circle, rgba(201, 168, 76, 0.02) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.chefs-header {
+  text-align: center;
+  margin-bottom: 80px;
+}
+
+.chefs-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 40px;
+}
+
+.chef-card {
+  text-align: center;
+  position: relative;
+}
+
+.chef-image-wrapper {
+  width: 200px;
+  height: 200px;
+  margin: 0 auto 28px;
+  border-radius: 50%;
+  position: relative;
+  overflow: hidden;
+}
+
+.chef-image-wrapper::before {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  border: 1px solid var(--gold);
+  opacity: 0.3;
+  transition: opacity var(--transition-fast), transform var(--transition-fast);
+}
+
+.chef-card:hover .chef-image-wrapper::before {
+  opacity: 0.7;
+  transform: scale(1.05);
+}
+
+.chef-image {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #121218 0%, #1a1825 50%, #121218 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform var(--transition-smooth);
+}
+
+.chef-image .image-placeholder-text {
+  font-size: 0.5rem;
+}
+
+.chef-card:hover .chef-image {
+  transform: scale(1.05);
+}
+
+.chef-name {
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  font-weight: 400;
+  color: var(--white);
+  margin-bottom: 6px;
+}
+
+.chef-title {
+  font-family: var(--font-accent);
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 6px;
+}
+
+.chef-specialty {
+  font-size: 0.8rem;
+  color: var(--silver-dark);
+  font-weight: 300;
+}
+
+.chef-bio {
+  margin-top: 16px;
+  font-size: 0.85rem;
+  color: var(--silver);
+  line-height: 1.6;
+  font-weight: 300;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.5s var(--ease-out-expo), opacity 0.4s ease, margin 0.4s ease;
+}
+
+.chef-card:hover .chef-bio {
+  max-height: 120px;
+  opacity: 1;
+  margin-top: 16px;
+}
+
+/* ============================================================
+   INTERIOR / SPACE SECTION
+   ============================================================ */
+.interior {
+  background: var(--black-deep);
+  position: relative;
+  overflow: hidden;
+}
+
+.interior-header {
+  text-align: center;
+  margin-bottom: 80px;
+}
+
+.interior-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: auto auto;
+  gap: 20px;
+}
+
+.interior-card {
+  position: relative;
+  overflow: hidden;
+  cursor: none;
+}
+
+.interior-card:nth-child(1) {
+  grid-column: 1 / 3;
+  grid-row: 1 / 3;
+}
+
+.interior-card:nth-child(2) {
+  grid-column: 3 / 4;
+}
+
+.interior-card:nth-child(3) {
+  grid-column: 4 / 5;
+}
+
+.interior-card:nth-child(4) {
+  grid-column: 3 / 5;
+}
+
+.interior-card-image {
+  width: 100%;
+  aspect-ratio: 16/10;
+  background: linear-gradient(145deg, #0d0d12 0%, #151322 40%, #0d0d12 80%, #100e18 100%);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.7s var(--ease-out-expo);
+}
+
+.interior-card:nth-child(1) .interior-card-image {
+  aspect-ratio: auto;
+  height: 100%;
+}
+
+.interior-card-image::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 40% 50%, rgba(201,168,76,0.03), transparent 60%);
+}
+
+.interior-card:hover .interior-card-image {
+  transform: scale(1.05);
+}
+
+.interior-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(5,5,5,0.9) 0%, rgba(5,5,5,0.2) 50%, transparent 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 32px;
+  z-index: 2;
+  transition: background var(--transition-smooth);
+}
+
+.interior-card:hover .interior-card-overlay {
+  background: linear-gradient(to top, rgba(5,5,5,0.95) 0%, rgba(5,5,5,0.4) 60%, rgba(5,5,5,0.1) 100%);
+}
+
+.interior-card-name {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: var(--white);
+  margin-bottom: 6px;
+}
+
+.interior-card-desc {
+  font-size: 0.85rem;
+  color: var(--silver);
+  font-weight: 300;
+  margin-bottom: 10px;
+  max-width: 300px;
+}
+
+.interior-card-seats {
+  font-family: var(--font-accent);
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+/* ============================================================
+   DRINKS & SAKE SECTION
+   ============================================================ */
+.drinks {
+  background: var(--black-primary);
+  position: relative;
+  overflow: hidden;
+}
+
+.drinks-bg-wave {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 200%;
+  height: 300px;
+  opacity: 0.03;
+  animation: waveMove 8s ease-in-out infinite;
+}
+
+.drinks-bg-wave path {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 1;
+}
+
+.drinks-header {
+  text-align: center;
+  margin-bottom: 80px;
+}
+
+.drinks-content {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 60px 80px;
+}
+
+.drink-category h3 {
+  font-family: var(--font-heading);
+  font-size: 1.8rem;
+  font-weight: 400;
+  color: var(--gold-light);
+  margin-bottom: 8px;
+}
+
+.drink-category-subtitle {
+  font-size: 0.75rem;
+  color: var(--silver-dark);
+  font-weight: 300;
+  font-style: italic;
+  margin-bottom: 28px;
+}
+
+.drink-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 16px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  transition: border-color var(--transition-fast);
+}
+
+.drink-item:hover {
+  border-color: rgba(201, 168, 76, 0.15);
+}
+
+.drink-item-left {
+  flex: 1;
+}
+
+.drink-item-name {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: var(--white);
+  margin-bottom: 2px;
+  transition: color var(--transition-fast);
+}
+
+.drink-item:hover .drink-item-name {
+  color: var(--gold-light);
+}
+
+.drink-item-name-jp {
+  font-family: var(--font-jp);
+  font-size: 0.75rem;
+  color: var(--gold-dark);
+  font-weight: 300;
+}
+
+.drink-item-desc {
+  font-size: 0.8rem;
+  color: var(--silver-dark);
+  font-weight: 300;
+  margin-top: 4px;
+}
+
+.drink-item-price {
+  font-family: var(--font-accent);
+  font-size: 0.8rem;
+  color: var(--silver);
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  margin-left: 24px;
+}
+
+/* ============================================================
+   RESERVATION SECTION
+   ============================================================ */
+.reservation {
+  background: var(--black-deep);
+  position: relative;
+  overflow: hidden;
+}
+
+.reservation::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1px;
+  height: 120px;
+  background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+  opacity: 0.3;
+}
+
+.reservation-inner {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.reservation-header {
+  margin-bottom: 60px;
+}
+
+.reservation-header .section-title {
+  margin-bottom: 16px;
+}
+
+.reservation-header p {
+  font-size: 1rem;
+  color: var(--silver);
+  font-weight: 300;
+}
+
+.reservation-form {
+  text-align: left;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.form-row.single {
+  grid-template-columns: 1fr;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-family: var(--font-accent);
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--silver);
+}
+
+.form-group label .required {
+  color: var(--sakura);
+  margin-left: 2px;
+}
+
+.form-input {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 14px 18px;
+  font-size: 0.95rem;
+  color: var(--white);
+  transition: border-color var(--transition-fast), background var(--transition-fast), box-shadow var(--transition-fast);
+  outline: none;
+  -webkit-appearance: none;
+  border-radius: 0;
+}
+
+.form-input:focus {
+  border-color: var(--gold);
+  background: rgba(201, 168, 76, 0.03);
+  box-shadow: 0 0 20px rgba(201, 168, 76, 0.05);
+}
+
+.form-input::placeholder {
+  color: var(--silver-dark);
+  font-weight: 300;
+}
+
+.form-input.error {
+  border-color: var(--sakura);
+  background: rgba(242, 166, 179, 0.03);
+}
+
+.form-error {
+  font-size: 0.7rem;
+  color: var(--sakura);
+  margin-top: 4px;
+  display: none;
+}
+
+.form-error.show {
+  display: block;
+}
+
+select.form-input {
+  cursor: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23C9A84C' stroke-width='1' fill='none'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  padding-right: 40px;
+}
+
+select.form-input option {
+  background: var(--black-primary);
+  color: var(--white);
+}
+
+textarea.form-input {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.form-toggle {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 8px 0;
+}
+
+.toggle-switch {
+  width: 48px;
+  height: 26px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 13px;
+  position: relative;
+  cursor: none;
+  transition: background var(--transition-fast), border-color var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.toggle-switch::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  background: var(--silver-dark);
+  border-radius: 50%;
+  transition: transform var(--transition-fast), background var(--transition-fast);
+}
+
+.toggle-switch.active {
+  background: rgba(201, 168, 76, 0.15);
+  border-color: var(--gold);
+}
+
+.toggle-switch.active::after {
+  transform: translateX(22px);
+  background: var(--gold);
+}
+
+.toggle-label {
+  font-size: 0.9rem;
+  color: var(--silver);
+  font-weight: 300;
+}
+
+.checkbox-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.checkbox-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  cursor: none;
+  transition: border-color var(--transition-fast), background var(--transition-fast);
+  user-select: none;
+}
+
+.checkbox-item:hover {
+  border-color: rgba(201, 168, 76, 0.2);
+}
+
+.checkbox-item.checked {
+  border-color: var(--gold);
+  background: rgba(201, 168, 76, 0.05);
+}
+
+.checkbox-item .check-box {
+  width: 14px;
+  height: 14px;
+  border: 1px solid var(--silver-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color var(--transition-fast), background var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.checkbox-item.checked .check-box {
+  border-color: var(--gold);
+  background: var(--gold);
+}
+
+.checkbox-item.checked .check-box::after {
+  content: '✓';
+  font-size: 0.6rem;
+  color: var(--black-deep);
+}
+
+.checkbox-item span:last-child {
+  font-size: 0.8rem;
+  color: var(--silver);
+  font-weight: 300;
+}
+
+.form-submit-btn {
+  width: 100%;
+  margin-top: 40px;
+  padding: 20px;
+  font-family: var(--font-accent);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--black-deep);
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 50%, var(--gold) 100%);
+  background-size: 200% 200%;
+  border: none;
+  position: relative;
+  overflow: hidden;
+  transition: background-position 0.5s ease, box-shadow var(--transition-fast), transform var(--transition-fast);
+}
+
+.form-submit-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  transition: left 0.6s var(--ease-out-expo);
+}
+
+.form-submit-btn:hover {
+  background-position: 100% 100%;
+  box-shadow: 0 8px 40px rgba(201, 168, 76, 0.25);
+  transform: translateY(-1px);
+}
+
+.form-submit-btn:hover::before {
+  left: 100%;
+}
+
+.form-submit-btn:active {
+  transform: translateY(0);
+}
+
+.form-deposit-note {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 0.75rem;
+  color: var(--silver-dark);
+  font-weight: 300;
+  font-style: italic;
+}
+
+/* Success Message */
+.reservation-success {
+  display: none;
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.reservation-success.show {
+  display: block;
+  animation: fadeInUp 0.8s var(--ease-out-expo);
+}
+
+.success-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 32px;
+  border: 1px solid var(--gold);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: scaleIn 0.6s var(--ease-out-expo) 0.2s both;
+}
+
+.success-icon svg {
+  width: 32px;
+  height: 32px;
+}
+
+.success-icon svg path {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 50;
+  stroke-dashoffset: 50;
+  animation: drawLine 0.6s var(--ease-out-expo) 0.5s forwards;
+}
+
+.reservation-success h3 {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 300;
+  color: var(--gold-light);
+  margin-bottom: 12px;
+}
+
+.reservation-success p {
+  font-size: 0.95rem;
+  color: var(--silver);
+  font-weight: 300;
+}
+
+/* ============================================================
+   LOCATION & CONTACT SECTION
+   ============================================================ */
+.location {
+  background: var(--black-primary);
+  position: relative;
+}
+
+.location-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+
+.map-placeholder {
+  width: 100%;
+  aspect-ratio: 4/3;
+  background: linear-gradient(145deg, #0c0c10 0%, #12101c 50%, #0c0c10 100%);
+  border: 1px solid var(--glass-border);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.map-placeholder::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(201,168,76,0.02) 1px, transparent 1px),
+    linear-gradient(rgba(201,168,76,0.02) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.map-pin {
+  width: 24px;
+  height: 24px;
+  position: relative;
+  z-index: 2;
+}
+
+.map-pin::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 12px;
+  height: 12px;
+  background: var(--gold);
+  border-radius: 50%;
+  box-shadow: 0 0 20px rgba(201, 168, 76, 0.5);
+}
+
+.map-pin::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--gold);
+  border-radius: 50%;
+  opacity: 0.3;
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.map-label {
+  position: absolute;
+  bottom: 24px;
+  left: 24px;
+  z-index: 2;
+}
+
+.map-label span {
+  font-family: var(--font-accent);
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--silver-dark);
+}
+
+.location-info h2 {
+  font-family: var(--font-heading);
+  font-size: 2.5rem;
+  font-weight: 300;
+  margin-bottom: 32px;
+}
+
+.location-detail {
+  margin-bottom: 32px;
+}
+
+.location-detail h4 {
+  font-family: var(--font-accent);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+
+.location-detail p, .location-detail a {
+  font-size: 0.95rem;
+  color: var(--silver);
+  font-weight: 300;
+  line-height: 1.8;
+  transition: color var(--transition-fast);
+}
+
+.location-detail a:hover {
+  color: var(--gold-light);
+}
+
+.location-detail .jp-address {
+  font-family: var(--font-jp);
+  font-size: 0.85rem;
+  color: var(--silver-dark);
+  margin-top: 4px;
+}
+
+.social-links {
+  display: flex;
+  gap: 20px;
+  margin-top: 8px;
+}
+
+.social-link {
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--glass-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast);
+}
+
+.social-link:hover {
+  border-color: var(--gold);
+  box-shadow: 0 0 20px rgba(201, 168, 76, 0.1);
+  background: rgba(201, 168, 76, 0.05);
+}
+
+.social-link svg {
+  width: 18px;
+  height: 18px;
+  fill: var(--silver);
+  transition: fill var(--transition-fast);
+}
+
+.social-link:hover svg {
+  fill: var(--gold);
+}
+
+/* ============================================================
+   PRESS & ACCOLADES SECTION
+   ============================================================ */
+.press {
+  background: var(--black-deep);
+  padding: 100px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.press-header {
+  text-align: center;
+  padding: 0 48px;
+  margin-bottom: 60px;
+}
+
+.marquee-container {
+  width: 100%;
+  overflow: hidden;
+  padding: 40px 0;
+  border-top: 1px solid var(--glass-border);
+  border-bottom: 1px solid var(--glass-border);
+  margin-bottom: 80px;
+}
+
+.marquee-track {
+  display: flex;
+  align-items: center;
+  gap: 80px;
+  animation: marquee 25s linear infinite;
+  width: max-content;
+}
+
+.marquee-item {
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  font-weight: 300;
+  color: var(--silver-dark);
+  white-space: nowrap;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.4;
+  transition: opacity var(--transition-fast), color var(--transition-fast);
+}
+
+.marquee-item:hover {
+  opacity: 0.8;
+  color: var(--gold-light);
+}
+
+.marquee-divider {
+  width: 4px;
+  height: 4px;
+  background: var(--gold);
+  border-radius: 50%;
+  flex-shrink: 0;
+  opacity: 0.3;
+}
+
+.press-quotes {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 48px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 48px;
+}
+
+.press-quote {
+  text-align: center;
+  padding: 40px 24px;
+  border: 1px solid rgba(255,255,255,0.03);
+  transition: border-color var(--transition-fast), background var(--transition-fast);
+}
+
+.press-quote:hover {
+  border-color: rgba(201, 168, 76, 0.1);
+  background: rgba(201, 168, 76, 0.01);
+}
+
+.press-quote blockquote {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--white);
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.press-quote cite {
+  font-family: var(--font-accent);
+  font-size: 0.65rem;
+  font-style: normal;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer {
+  background: var(--black-deep);
+  border-top: 1px solid var(--glass-border);
+  padding: 80px 48px 40px;
+  position: relative;
+  z-index: 2;
+}
+
+.footer-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 60px;
+  margin-bottom: 60px;
+}
+
+.footer-brand .nav-logo {
+  margin-bottom: 20px;
+}
+
+.footer-brand p {
+  font-size: 0.85rem;
+  color: var(--silver-dark);
+  font-weight: 300;
+  line-height: 1.7;
+  max-width: 300px;
+}
+
+.footer-nav h4, .footer-newsletter h4 {
+  font-family: var(--font-accent);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 24px;
+}
+
+.footer-nav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footer-nav-links a {
+  font-size: 0.9rem;
+  color: var(--silver-dark);
+  font-weight: 300;
+  transition: color var(--transition-fast), padding-left var(--transition-fast);
+}
+
+.footer-nav-links a:hover {
+  color: var(--gold-light);
+  padding-left: 8px;
+}
+
+.footer-newsletter p {
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-style: italic;
+  color: var(--silver);
+  margin-bottom: 20px;
+  font-weight: 300;
+}
+
+.newsletter-form {
+  display: flex;
+  gap: 0;
+}
+
+.newsletter-form input {
+  flex: 1;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-right: none;
+  padding: 12px 16px;
+  font-size: 0.85rem;
+  color: var(--white);
+  outline: none;
+  transition: border-color var(--transition-fast);
+}
+
+.newsletter-form input:focus {
+  border-color: var(--gold);
+}
+
+.newsletter-form input::placeholder {
+  color: var(--silver-dark);
+}
+
+.newsletter-form button {
+  padding: 12px 24px;
+  background: var(--gold);
+  color: var(--black-deep);
+  font-family: var(--font-accent);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-weight: 600;
+  transition: background var(--transition-fast);
+}
+
+.newsletter-form button:hover {
+  background: var(--gold-light);
+}
+
+.footer-bottom {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding-top: 32px;
+  border-top: 1px solid rgba(255,255,255,0.04);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.footer-bottom p {
+  font-size: 0.7rem;
+  color: var(--silver-dark);
+  font-weight: 300;
+}
+
+.footer-bottom .footer-note {
+  font-style: italic;
+  font-size: 0.65rem;
+}
+
+.footer-social {
+  display: flex;
+  gap: 16px;
+}
+
+/* ============================================================
+   RESPONSIVE DESIGN
+   ============================================================ */
+@media (max-width: 1200px) {
+  .chefs-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 48px;
+  }
+
+  .interior-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .interior-card:nth-child(1) {
+    grid-column: 1 / 3;
+    grid-row: auto;
+  }
+
+  .interior-card:nth-child(4) {
+    grid-column: 1 / 3;
+  }
+}
+
+@media (max-width: 1024px) {
+  .nav-links {
+    display: none;
+  }
+
+  .nav-reserve-btn {
+    display: none;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  .section-padding {
+    padding: 100px 32px;
+  }
+
+  .philosophy-grid {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+
+  .philosophy-image {
+    aspect-ratio: 16/9;
+    max-height: 400px;
+  }
+
+  .stats-bar {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .drinks-content {
+    grid-template-columns: 1fr;
+  }
+
+  .location-grid {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+
+  .press-quotes {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .footer-content {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .dish-card {
+    width: 300px;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav {
+    padding: 16px 24px;
+  }
+
+  .nav.scrolled {
+    padding: 12px 24px;
+  }
+
+  .section-padding {
+    padding: 80px 24px;
+  }
+
+  .hero-title {
+    letter-spacing: 0.15em;
+  }
+
+  .hero-cta {
+    padding: 16px 36px;
+    font-size: 0.7rem;
+  }
+
+  .experience-header {
+    padding: 80px 24px 40px;
+  }
+
+  .horizontal-scroll-wrapper {
+    height: auto;
+  }
+
+  .horizontal-scroll-sticky {
+    position: relative;
+    height: auto;
+    flex-direction: column;
+    padding: 20px 24px 80px;
+    gap: 28px;
+  }
+
+  .horizontal-scroll-track {
+    flex-direction: column;
+    padding: 0;
+    gap: 28px;
+  }
+
+  .dish-card {
+    width: 100%;
+  }
+
+  .chefs-grid {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+
+  .chef-image-wrapper {
+    width: 160px;
+    height: 160px;
+  }
+
+  .interior-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .interior-card:nth-child(1),
+  .interior-card:nth-child(4) {
+    grid-column: auto;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-bar {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .marquee-track {
+    gap: 40px;
+  }
+
+  .marquee-item {
+    font-size: 0.9rem;
+  }
+
+  body {
+    cursor: auto;
+  }
+
+  .cursor-outer, .cursor-inner {
+    display: none !important;
+  }
+
+  a, button, .toggle-switch, .checkbox-item, select, .dish-card, .interior-card, .chef-card, .social-link, .nav-reserve-btn, .hamburger {
+    cursor: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .section-padding {
+    padding: 64px 16px;
+  }
+
+  .hero-title {
+    font-size: 3rem;
+    letter-spacing: 0.1em;
+  }
+
+  .hero-title-jp {
+    letter-spacing: 0.3em;
+  }
+
+  .section-title {
+    font-size: 2rem;
+  }
+
+  .philosophy-text h2 {
+    font-size: 1.8rem;
+  }
+
+  .stats-bar {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .stat-number {
+    font-size: 1.8rem;
+  }
+
+  .nav-logo-text {
+    font-size: 1rem;
+  }
+
+  .experience-header {
+    padding: 64px 16px 32px;
+  }
+
+  .newsletter-form {
+    flex-direction: column;
+  }
+
+  .newsletter-form input {
+    border-right: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .checkbox-group {
+    flex-direction: column;
+  }
+}
+
+/* ============================================================
+   KINETIC TYPOGRAPHY
+   ============================================================ */
+.split-text .char {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.6s var(--ease-out-expo), transform 0.6s var(--ease-out-expo);
+}
+
+.split-text.visible .char {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ============================================================
+   ADDITIONAL DECORATIVE ELEMENTS
+   ============================================================ */
+.jp-decoration {
+  font-family: var(--font-jp);
+  color: rgba(201, 168, 76, 0.04);
+  font-size: 12rem;
+  font-weight: 200;
+  position: absolute;
+  user-select: none;
+  pointer-events: none;
+  line-height: 1;
+}
+
+.section-jp-bg {
+  font-family: var(--font-jp);
+  color: rgba(201, 168, 76, 0.025);
+  font-size: clamp(6rem, 15vw, 14rem);
+  font-weight: 200;
+  position: absolute;
+  user-select: none;
+  pointer-events: none;
+  line-height: 1;
+}
+</style>
+</head>
+<body class="loading">
+
+<!-- ============================================================
+     GRAIN OVERLAY
+     ============================================================ -->
+<div class="grain-overlay" aria-hidden="true"></div>
+
+<!-- ============================================================
+     CUSTOM CURSOR
+     ============================================================ -->
+<div class="cursor-outer" id="cursorOuter" aria-hidden="true"></div>
+<div class="cursor-inner" id="cursorInner" aria-hidden="true"></div>
+
+<!-- ============================================================
+     PARTICLE CANVAS
+     ============================================================ -->
+<canvas id="particle-canvas" aria-hidden="true"></canvas>
+
+<!-- ============================================================
+     LOADING SCREEN
+     ============================================================ -->
+<div class="loading-screen" id="loadingScreen" role="status" aria-label="Loading">
+  <svg class="loading-logo-svg" viewBox="0 0 200 200" aria-hidden="true">
+    <circle class="enso" cx="100" cy="100" r="65" />
+    <line class="vertical-line" x1="100" y1="28" x2="100" y2="172" />
+    <path class="diamond" d="M100 20 L108 32 L100 44 L92 32 Z" />
+  </svg>
+  <div class="loading-text">YŪGEN</div>
+  <div class="loading-text-jp">幽玄</div>
+  <div class="loading-bar-container">
+    <div class="loading-bar"></div>
+  </div>
+</div>
+
+<!-- ============================================================
+     NAVIGATION
+     ============================================================ -->
+<nav class="nav" id="mainNav" role="navigation" aria-label="Main navigation">
+  <a href="#hero" class="nav-logo" aria-label="YŪGEN home">
+    <svg class="nav-logo-mark" viewBox="0 0 200 200" aria-hidden="true">
+      <circle class="enso" cx="100" cy="100" r="65" stroke-width="2" fill="none" stroke-dasharray="370" stroke-dashoffset="30" />
+    </svg>
+    <div>
+      <div class="nav-logo-text">YŪGEN</div>
+      <div class="nav-logo-jp">幽玄</div>
+    </div>
+  </a>
+
+  <div class="nav-links">
+    <a href="#philosophy">Philosophy</a>
+    <a href="#experience">Experience</a>
+    <a href="#chefs">Chefs</a>
+    <a href="#interior">The Space</a>
+    <a href="#drinks">Drinks</a>
+    <a href="#contact">Contact</a>
+    <a href="#reservation" class="nav-reserve-btn">Reserve</a>
+  </div>
+
+  <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu" aria-expanded="false">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+  <a href="#philosophy" class="mobile-menu-link">Philosophy</a>
+  <a href="#experience" class="mobile-menu-link">Experience</a>
+  <a href="#chefs" class="mobile-menu-link">Chefs</a>
+  <a href="#interior" class="mobile-menu-link">The Space</a>
+  <a href="#drinks" class="mobile-menu-link">Drinks</a>
+  <a href="#contact" class="mobile-menu-link">Contact</a>
+  <a href="#reservation" class="mobile-menu-link">Reserve</a>
+</div>
+
+<!-- ============================================================
+     HERO SECTION
+     ============================================================ -->
+<section class="hero" id="hero" aria-label="Hero">
+  <div class="hero-bg" data-parallax-speed="0.3">
+    <div class="hero-video-placeholder"></div>
+  </div>
+
+  <div class="floating-kanji" aria-hidden="true">
+    <span>幽</span>
+    <span>玄</span>
+    <span>美</span>
+    <span>道</span>
+    <span>禅</span>
+    <span>雅</span>
+  </div>
+
+  <div class="hero-content">
+    <svg class="hero-logo-svg" viewBox="0 0 200 200" aria-hidden="true">
+      <circle class="enso" cx="100" cy="100" r="65" fill="none" stroke-width="1" stroke-dasharray="370" stroke-dashoffset="30" stroke-linecap="round" />
+    </svg>
+    <h1 class="hero-title">YŪGEN</h1>
+    <p class="hero-title-jp">幽玄</p>
+    <p class="hero-tagline">"Where tradition dissolves into the future"</p>
+    <a href="#reservation" class="hero-cta">Reserve Your Experience</a>
+  </div>
+
+  <div class="hero-scroll-indicator" aria-hidden="true">
+    <span>Discover</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PHILOSOPHY / ABOUT SECTION
+     ============================================================ -->
+<section class="philosophy section-padding" id="philosophy" aria-label="Our Philosophy">
+  <div class="container">
+    <div class="section-jp-bg" style="top: -40px; right: -60px;" aria-hidden="true">哲学</div>
+
+    <div class="philosophy-grid">
+      <div class="philosophy-image reveal-left">
+        <div class="image-placeholder reveal-clip">
+          <span class="image-placeholder-text">IMAGE</span>
+        </div>
+        <div class="gold-frame"></div>
+      </div>
+
+      <div class="philosophy-text">
+        <div class="section-label reveal stagger-1">Our Philosophy</div>
+        <h2 class="reveal stagger-2">A Dialogue Between <em>Past</em> and <em>Future</em></h2>
+        <p class="reveal stagger-3">At YŪGEN, we honor the profound artistry of kaiseki — a culinary tradition refined over four centuries in Kyoto's temples and tea houses. Each course is a meditation on seasonality, balance, and the ephemeral beauty of nature.</p>
+        <p class="reveal stagger-4">Yet we are restless dreamers. Through molecular gastronomy, immersive technology, and avant-garde technique, we dissolve the boundaries of tradition, creating moments that exist nowhere else on earth. This is not merely dinner. This is a passage through time.</p>
+      </div>
+    </div>
+
+    <div class="gold-separator reveal">
+      <div class="line"></div>
+      <div class="sakura">✿</div>
+      <div class="line"></div>
+    </div>
+
+    <div class="stats-bar">
+      <div class="stat-item reveal stagger-1">
+        <span class="stat-number" data-target="3" data-suffix="">0</span>
+        <span class="stat-label">Michelin Stars</span>
+      </div>
+      <div class="stat-item reveal stagger-2">
+        <span class="stat-number" data-target="17" data-suffix="-Course">0</span>
+        <span class="stat-label">Experience</span>
+      </div>
+      <div class="stat-item reveal stagger-3">
+        <span class="stat-number" data-target="2019" data-suffix="" data-no-animate="true">2019</span>
+        <span class="stat-label">Established</span>
+      </div>
+      <div class="stat-item reveal stagger-4">
+        <span class="stat-number" data-target="4" data-suffix="">0</span>
+        <span class="stat-label">Master Chefs</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     EXPERIENCE / MENU SECTION
+     ============================================================ -->
+<section class="experience" id="experience" aria-label="The Experience">
+  <div class="experience-bg-gradient" aria-hidden="true"></div>
+
+  <div class="experience-header">
+    <div class="section-label reveal">The Experience</div>
+    <h2 class="section-title reveal stagger-1">Omakase <em>Journey</em></h2>
+    <p class="reveal stagger-2" style="color: var(--silver); font-weight: 300; margin-top: 16px; max-width: 600px; font-size: 1rem;">Seventeen courses charting a path through memory, season, and imagination. Surrender to the journey.</p>
+  </div>
+
+  <div class="horizontal-scroll-wrapper" id="horizontalScrollWrapper">
+    <div class="horizontal-scroll-sticky">
+      <div class="horizontal-scroll-track" id="horizontalTrack">
+        <!-- Course 1 -->
+        <div class="dish-card reveal" data-tilt>
+          <div class="dish-card-inner">
+            <div class="dish-card-image">
+              <div class="dish-number">Course <span>01</span></div>
+              <span class="image-placeholder-text" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);">IMAGE</span>
+            </div>
+            <div class="dish-card-content">
+              <h3 class="dish-name">Mist</h3>
+              <p class="dish-name-jp">霧</p>
+              <p class="dish-description">A5 wagyu tataki veiled in applewood smoke</p>
+            </div>
+            <div class="dish-card-hover-overlay">
+              <span>View Details →</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Course 2 -->
+        <div class="dish-card reveal stagger-1" data-tilt>
+          <div class="dish-card-inner">
+            <div class="dish-card-image">
+              <div class="dish-number">Course <span>02</span></div>
+              <span class="image-placeholder-text" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);">IMAGE</span>
+            </div>
+            <div class="dish-card-content">
+              <h3 class="dish-name">Tide</h3>
+              <p class="dish-name-jp">潮</p>
+              <p class="dish-description">Hokkaido uni suspended in dashi gelée</p>
+            </div>
+            <div class="dish-card-hover-overlay">
+              <span>View Details →</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Course 3 -->
+        <div class="dish-card reveal stagger-2" data-tilt>
+          <div class="dish-card-inner">
+            <div class="dish-card-image">
+              <div class="dish-number">Course <span>03</span></div>
+              <span class="image-placeholder-text" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);">IMAGE</span>
+            </div>
+            <div class="dish-card-content">
+              <h3 class="dish-name">Ember</h3>
+              <p class="dish-name-jp">燃</p>
+              <p class="dish-description">Charcoal-kissed amadai with yuzu kosho</p>
+            </div>
+            <div class="dish-card-hover-overlay">
+              <span>View Details →</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Course 4 -->
+        <div class="dish-card reveal stagger-3" data-tilt>
+          <div class="dish-card-inner">
+            <div class="dish-card-image">
+              <div class="dish-number">Course <span>04</span></div>
+              <span class="image-placeholder-text" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);">IMAGE</span>
+            </div>
+            <div class="dish-card-content">
+              <h3 class="dish-name">Bloom</h3>
+              <p class="dish-name-jp">咲</p>
+              <p class="dish-description">Sakura mousse, white chocolate soil, matcha air</p>
+            </div>
+            <div class="dish-card-hover-overlay">
+              <span>View Details →</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Course 5 -->
+        <div class="dish-card reveal stagger-4" data-tilt>
+          <div class="dish-card-inner">
+            <div class="dish-card-image">
+              <div class="dish-number">Course <span>05</span></div>
+              <span class="image-placeholder-text" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);">IMAGE</span>
+            </div>
+            <div class="dish-card-content">
+              <h3 class="dish-name">Void</h3>
+              <p class="dish-name-jp">空</p>
+              <p class="dish-description">Black sesame sphere, liquid miso caramel core</p>
+            </div>
+            <div class="dish-card-hover-overlay">
+              <span>View Details →</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Course 6 -->
+        <div class="dish-card reveal stagger-5" data-tilt>
+          <div class="dish-card-inner">
+            <div class="dish-card-image">
+              <div class="dish-number">Course <span>06</span></div>
+              <span class="image-placeholder-text" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);">IMAGE</span>
+            </div>
+            <div class="dish-card-content">
+              <h3 class="dish-name">Dawn</h3>
+              <p class="dish-name-jp">暁</p>
+              <p class="dish-description">Deconstructed chawanmushi, truffle rain</p>
+            </div>
+            <div class="dish-card-hover-overlay">
+              <span>View Details →</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CHEFS SECTION
+     ============================================================ -->
+<section class="chefs section-padding" id="chefs" aria-label="Our Chefs">
+  <div class="container">
+    <div class="section-jp-bg" style="top: -20px; left: -80px;" aria-hidden="true">料理人</div>
+
+    <div class="chefs-header">
+      <div class="section-label reveal" style="justify-content:center;">Our Chefs</div>
+      <h2 class="section-title reveal stagger-1">The Architects of <em>Flavor</em></h2>
+    </div>
+
+    <div class="chefs-grid">
+      <!-- Chef 1 -->
+      <div class="chef-card reveal stagger-1">
+        <div class="chef-image-wrapper">
+          <div class="chef-image">
+            <span class="image-placeholder-text">IMAGE</span>
+          </div>
+        </div>
+        <h3 class="chef-name">Takeshi Morimoto</h3>
+        <p class="chef-title">Executive Chef</p>
+        <p class="chef-specialty">Kaiseki Master</p>
+        <p class="chef-bio">Trained for 15 years in Kyoto's most revered kaiseki houses before bringing his visionary approach to YŪGEN. His philosophy: every plate is a landscape.</p>
+      </div>
+
+      <!-- Chef 2 -->
+      <div class="chef-card reveal stagger-2">
+        <div class="chef-image-wrapper">
+          <div class="chef-image">
+            <span class="image-placeholder-text">IMAGE</span>
+          </div>
+        </div>
+        <h3 class="chef-name">Yuki Tanabe</h3>
+        <p class="chef-title">Pastry Artisan</p>
+        <p class="chef-specialty">Molecular Specialist</p>
+        <p class="chef-bio">A former chemist turned pastry genius, Yuki creates desserts that challenge physics and ignite wonder. Her Void sphere has become YŪGEN's signature.</p>
+      </div>
+
+      <!-- Chef 3 -->
+      <div class="chef-card reveal stagger-3">
+        <div class="chef-image-wrapper">
+          <div class="chef-image">
+            <span class="image-placeholder-text">IMAGE</span>
+          </div>
+        </div>
+        <h3 class="chef-name">Renzo Matsuda</h3>
+        <p class="chef-title">Sushi Omakase Lead</p>
+        <p class="chef-specialty">Edomae Tradition</p>
+        <p class="chef-bio">Third-generation sushi master from Tsukiji. Renzo's hands move with 30 years of muscle memory, crafting nigiri that speaks of the ocean's rhythm.</p>
+      </div>
+
+      <!-- Chef 4 -->
+      <div class="chef-card reveal stagger-4">
+        <div class="chef-image-wrapper">
+          <div class="chef-image">
+            <span class="image-placeholder-text">IMAGE</span>
+          </div>
+        </div>
+        <h3 class="chef-name">Hana Sato</h3>
+        <p class="chef-title">Fermentation Director</p>
+        <p class="chef-specialty">Umami Alchemist</p>
+        <p class="chef-bio">Hana's laboratory houses over 200 fermentation projects. Her custom misos, aged up to 3 years, form the invisible backbone of YŪGEN's flavor identity.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     INTERIOR / SPACE SECTION
+     ============================================================ -->
+<section class="interior section-padding" id="interior" aria-label="The Space">
+  <div class="container">
+    <div class="section-jp-bg" style="top: -30px; right: -40px;" aria-hidden="true">空間</div>
+
+    <div class="interior-header">
+      <div class="section-label reveal" style="justify-content:center;">The Space</div>
+      <h2 class="section-title reveal stagger-1">Four Worlds, <em>One Vision</em></h2>
+    </div>
+
+    <div class="interior-grid">
+      <!-- Main Hall -->
+      <div class="interior-card reveal-scale stagger-1">
+        <div class="interior-card-image">
+          <span class="image-placeholder-text" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);">IMAGE</span>
+        </div>
+        <div class="interior-card-overlay">
+          <h3 class="interior-card-name">Main Hall</h3>
+          <p class="interior-card-desc">Open kitchen theater where fire meets artistry. Witness the dance of creation.</p>
+          <span class="interior-card-seats">20 Seats</span>
+        </div>
+      </div>
+
+      <!-- Private Counter -->
+      <div class="interior-card reveal-scale stagger-2">
+        <div class="interior-card-image">
+          <span class="image-placeholder-text" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);">IMAGE</span>
+        </div>
+        <div class="interior-card-overlay">
+          <h3 class="interior-card-name">Private Omakase Counter</h3>
+          <p class="interior-card-desc">Intimate chef interaction, eye-to-eye.</p>
+          <span class="interior-card-seats">8 Seats</span>
+        </div>
+      </div>
+
+      <!-- Void Room -->
+      <div class="interior-card reveal-scale stagger-3">
+        <div class="interior-card-image">
+          <span class="image-placeholder-text" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);">IMAGE</span>
+        </div>
+        <div class="interior-card-overlay">
+          <h3 class="interior-card-name">The Void Room</h3>
+          <p class="interior-card-desc">360° immersive projection dining.</p>
+          <span class="interior-card-seats">4 Seats</span>
+        </div>
+      </div>
+
+      <!-- Rooftop -->
+      <div class="interior-card reveal-scale stagger-4">
+        <div class="interior-card-image">
+          <span class="image-placeholder-text" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);">IMAGE</span>
+        </div>
+        <div class="interior-card-overlay">
+          <h3 class="interior-card-name">Rooftop Terrace</h3>
+          <p class="interior-card-desc">Seasonal dining beneath the stars, overlooking Tokyo Tower.</p>
+          <span class="interior-card-seats">12 Seats</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     DRINKS & SAKE SECTION
+     ============================================================ -->
+<section class="drinks section-padding" id="drinks" aria-label="Drinks & Sake">
+  <div class="container">
+    <div class="section-jp-bg" style="bottom: -30px; left: -60px;" aria-hidden="true">酒</div>
+
+    <!-- Animated Wave Background -->
+    <svg class="drinks-bg-wave" viewBox="0 0 1200 300" aria-hidden="true">
+      <path d="M0 150 Q150 100 300 150 T600 150 T900 150 T1200 150 T1500 150 T1800 150" />
+      <path d="M0 180 Q150 130 300 180 T600 180 T900 180 T1200 180 T1500 180 T1800 180" style="animation-delay: -3s;" />
+      <path d="M0 210 Q150 160 300 210 T600 210 T900 210 T1200 210 T1500 210 T1800 210" style="animation-delay: -6s;" />
+    </svg>
+
+    <div class="drinks-header">
+      <div class="section-label reveal" style="justify-content:center;">Libations</div>
+      <h2 class="section-title reveal stagger-1">Liquid <em>Poetry</em></h2>
+    </div>
+
+    <div class="drinks-content">
+      <!-- Sake Pairings -->
+      <div class="drink-category reveal">
+        <h3>Sake Pairings</h3>
+        <p class="drink-category-subtitle">Curated by Sake Sommelier Kenji Ōmura</p>
+
+        <div class="drink-item">
+          <div class="drink-item-left">
+            <div class="drink-item-name">Dassai 23 Junmai Daiginjo</div>
+            <div class="drink-item-name-jp">獺祭 二割三分</div>
+            <div class="drink-item-desc">Ethereal purity, polished to 23%. Pairs with Tide course.</div>
+          </div>
+          <div class="drink-item-price">¥4,800</div>
+        </div>
+
+        <div class="drink-item">
+          <div class="drink-item-left">
+            <div class="drink-item-name">Juyondai Honmaru</div>
+            <div class="drink-item-name-jp">十四代 本丸</div>
+            <div class="drink-item-desc">Legendary elegance, fruity and refined. Ultra-rare allocation.</div>
+          </div>
+          <div class="drink-item-price">¥12,000</div>
+        </div>
+
+        <div class="drink-item">
+          <div class="drink-item-left">
+            <div class="drink-item-name">Born Gold Junmai Daiginjo</div>
+            <div class="drink-item-name-jp">梵・ゴールド</div>
+            <div class="drink-item-desc">Golden hue, rich umami depth. Perfect with Ember.</div>
+          </div>
+          <div class="drink-item-price">¥5,200</div>
+        </div>
+      </div>
+
+      <!-- Japanese Whisky -->
+      <div class="drink-category reveal stagger-1">
+        <h3>Japanese Whisky</h3>
+        <p class="drink-category-subtitle">From the highlands to the islands</p>
+
+        <div class="drink-item">
+          <div class="drink-item-left">
+            <div class="drink-item-name">Yamazaki 18 Year</div>
+            <div class="drink-item-name-jp">山崎 18年</div>
+            <div class="drink-item-desc">Deep sherry cask complexity, dried fruits, mizunara oak.</div>
+          </div>
+          <div class="drink-item-price">¥8,500</div>
+        </div>
+
+        <div class="drink-item">
+          <div class="drink-item-left">
+            <div class="drink-item-name">Hibiki 21 Year</div>
+            <div class="drink-item-name-jp">響 21年</div>
+            <div class="drink-item-desc">Harmony in a glass. Sandalwood, rose, honey, eternity.</div>
+          </div>
+          <div class="drink-item-price">¥15,000</div>
+        </div>
+
+        <div class="drink-item">
+          <div class="drink-item-left">
+            <div class="drink-item-name">Chichibu Ichiro's Malt</div>
+            <div class="drink-item-name-jp">秩父 イチローズモルト</div>
+            <div class="drink-item-desc">Cult favorite. Bold, experimental, unforgettable.</div>
+          </div>
+          <div class="drink-item-price">¥6,800</div>
+        </div>
+      </div>
+
+      <!-- Signature Cocktails -->
+      <div class="drink-category reveal stagger-2">
+        <h3>Signature Cocktails</h3>
+        <p class="drink-category-subtitle">Molecular artistry in every sip</p>
+
+        <div class="drink-item">
+          <div class="drink-item-left">
+            <div class="drink-item-name">Sakura Veil</div>
+            <div class="drink-item-name-jp">桜のベール</div>
+            <div class="drink-item-desc">Gin, cherry blossom mist, yuzu pearl caviar, elderflower foam.</div>
+          </div>
+          <div class="drink-item-price">¥3,800</div>
+        </div>
+
+        <div class="drink-item">
+          <div class="drink-item-left">
+            <div class="drink-item-name">Midnight Garden</div>
+            <div class="drink-item-name-jp">真夜中の庭</div>
+            <div class="drink-item-desc">Whisky, activated charcoal, shiso, smoke bubble presentation.</div>
+          </div>
+          <div class="drink-item-price">¥4,200</div>
+        </div>
+
+        <div class="drink-item">
+          <div class="drink-item-left">
+            <div class="drink-item-name">Electric Zen</div>
+            <div class="drink-item-name-jp">電気禅</div>
+            <div class="drink-item-desc">Vodka, matcha, butterfly pea flower, citrus gel drops.</div>
+          </div>
+          <div class="drink-item-price">¥3,500</div>
+        </div>
+      </div>
+
+      <!-- Non-Alcoholic -->
+      <div class="drink-category reveal stagger-3">
+        <h3>Non-Alcoholic Journey</h3>
+        <p class="drink-category-subtitle">Equally extraordinary, entirely intentional</p>
+
+        <div class="drink-item">
+          <div class="drink-item-left">
+            <div class="drink-item-name">Forest Floor</div>
+            <div class="drink-item-name-jp">森の床</div>
+            <div class="drink-item-desc">Pine needle kombucha, cedar smoke, wild honey.</div>
+          </div>
+          <div class="drink-item-price">¥2,200</div>
+        </div>
+
+        <div class="drink-item">
+          <div class="drink-item-left">
+            <div class="drink-item-name">Golden Meridian</div>
+            <div class="drink-item-name-jp">金の子午線</div>
+            <div class="drink-item-desc">Turmeric-ginger shrub, passionfruit, sparkling dashi.</div>
+          </div>
+          <div class="drink-item-price">¥2,000</div>
+        </div>
+
+        <div class="drink-item">
+          <div class="drink-item-left">
+            <div class="drink-item-name">Still Water Ceremony</div>
+            <div class="drink-item-name-jp">止水の儀</div>
+            <div class="drink-item-desc">House-fermented plum water, white peach, jasmine ice.</div>
+          </div>
+          <div class="drink-item-price">¥1,800</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     RESERVATION SECTION
+     ============================================================ -->
+<section class="reservation section-padding" id="reservation" aria-label="Make a Reservation">
+  <div class="container">
+    <div class="reservation-inner">
+      <div class="reservation-header">
+        <div class="section-label reveal" style="justify-content:center;">Reservations</div>
+        <h2 class="section-title reveal stagger-1">Begin Your <em>Journey</em></h2>
+        <p class="reveal stagger-2">Secure your table at YŪGEN. Each evening accommodates limited guests to ensure an intimate, transcendent experience.</p>
+      </div>
+
+      <form class="reservation-form reveal stagger-3" id="reservationForm" novalidate>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="resName">Full Name <span class="required">*</span></label>
+            <input type="text" id="resName" class="form-input" placeholder="Your full name" required>
+            <span class="form-error" id="resNameError">Please enter your name</span>
+          </div>
+          <div class="form-group">
+            <label for="resEmail">Email <span class="required">*</span></label>
+            <input type="email" id="resEmail" class="form-input" placeholder="your@email.com" required>
+            <span class="form-error" id="resEmailError">Please enter a valid email</span>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="resPhone">Phone <span class="required">*</span></label>
+            <input type="tel" id="resPhone" class="form-input" placeholder="+81 3-XXXX-XXXX" required>
+            <span class="form-error" id="resPhoneError">Please enter your phone number</span>
+          </div>
+          <div class="form-group">
+            <label for="resDate">Date <span class="required">*</span></label>
+            <input type="date" id="resDate" class="form-input" required>
+            <span class="form-error" id="resDateError">Please select a date</span>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="resTime">Seating <span class="required">*</span></label>
+            <select id="resTime" class="form-input" required>
+              <option value="" disabled selected>Select seating time</option>
+              <option value="18:00">First Seating — 6:00 PM</option>
+              <option value="20:30">Second Seating — 8:30 PM</option>
+            </select>
+            <span class="form-error" id="resTimeError">Please select a seating</span>
+          </div>
+          <div class="form-group">
+            <label for="resGuests">Party Size <span class="required">*</span></label>
+            <select id="resGuests" class="form-input" required>
+              <option value="" disabled selected>Number of guests</option>
+              <option value="1">1 Guest</option>
+              <option value="2">2 Guests</option>
+              <option value="3">3 Guests</option>
+              <option value="4">4 Guests</option>
+              <option value="5">5 Guests</option>
+              <option value="6">6 Guests</option>
+              <option value="7">7 Guests</option>
+              <option value="8">8 Guests</option>
+            </select>
+            <span class="form-error" id="resGuestsError">Please select party size</span>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="resArea">Dining Area Preference</label>
+            <select id="resArea" class="form-input">
+              <option value="" disabled selected>Select preferred area</option>
+              <option value="main">Main Hall</option>
+              <option value="counter">Private Omakase Counter</option>
+              <option value="void">The Void Room</option>
+              <option value="rooftop">Rooftop Terrace (Seasonal)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="resOccasion">Special Occasion</label>
+            <select id="resOccasion" class="form-input">
+              <option value="" disabled selected>Select if applicable</option>
+              <option value="birthday">Birthday</option>
+              <option value="anniversary">Anniversary</option>
+              <option value="proposal">Proposal</option>
+              <option value="business">Business Dinner</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row single">
+          <div class="form-group">
+            <label>Dietary Requirements</label>
+            <div class="checkbox-group">
+              <div class="checkbox-item" data-value="vegetarian">
+                <div class="check-box"></div>
+                <span>Vegetarian</span>
+              </div>
+              <div class="checkbox-item" data-value="vegan">
+                <div class="check-box"></div>
+                <span>Vegan</span>
+              </div>
+              <div class="checkbox-item" data-value="halal">
+                <div class="check-box"></div>
+                <span>Halal</span>
+              </div>
+              <div class="checkbox-item" data-value="gluten-free">
+                <div class="check-box"></div>
+                <span>Gluten-Free</span>
+              </div>
+              <div class="checkbox-item" data-value="allergies">
+                <div class="check-box"></div>
+                <span>Allergies</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row single">
+          <div class="form-group">
+            <label for="resNotes">Special Requests</label>
+            <textarea id="resNotes" class="form-input" placeholder="Any notes for our team..." rows="3"></textarea>
+          </div>
+        </div>
+
+        <div class="form-row single">
+          <div class="form-group">
+            <label>Sake Pairing</label>
+            <div class="form-toggle">
+              <div class="toggle-switch" id="sakePairingToggle" role="switch" aria-checked="false" tabindex="0"></div>
+              <span class="toggle-label">Add curated sake pairing to your experience (+¥15,000 per guest)</span>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="form-submit-btn">Confirm Reservation</button>
+        <p class="form-deposit-note">A ¥20,000 deposit per guest is required to secure your reservation</p>
+      </form>
+
+      <div class="reservation-success" id="reservationSuccess">
+        <div class="success-icon">
+          <svg viewBox="0 0 32 32"><path d="M8 16 L14 22 L24 10" /></svg>
+        </div>
+        <h3>Reservation Received</h3>
+        <p>Thank you for choosing YŪGEN. A confirmation will arrive in your inbox shortly. We look forward to welcoming you.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     LOCATION & CONTACT SECTION
+     ============================================================ -->
+<section class="location section-padding" id="contact" aria-label="Location & Contact">
+  <div class="container">
+    <div class="location-grid">
+      <div class="reveal-left">
+        <div class="map-placeholder">
+          <div class="map-pin"></div>
+          <div class="map-label">
+            <span>Roppongi, Tokyo · 106-0032</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="location-info">
+        <div class="section-label reveal">Find Us</div>
+        <h2 class="reveal stagger-1">Visit <em>YŪGEN</em></h2>
+
+        <div class="location-detail reveal stagger-2">
+          <h4>Address</h4>
+          <p>7-14-5 Roppongi, Minato-ku<br>Tokyo 106-0032, Japan</p>
+          <p class="jp-address">〒106-0032 東京都港区六本木7-14-5</p>
+          <p style="margin-top: 8px; font-size: 0.85rem; color: var(--silver-dark);">2-minute walk from Roppongi Station (Exit 4A)</p>
+        </div>
+
+        <div class="location-detail reveal stagger-3">
+          <h4>Hours</h4>
+          <p>Dinner: Tuesday – Sunday, 6:00 PM – 11:00 PM<br>
+          <span style="color: var(--sakura); font-size: 0.85rem;">Closed Mondays</span></p>
+        </div>
+
+        <div class="location-detail reveal stagger-4">
+          <h4>Contact</h4>
+          <p><a href="tel:+81312345678">+81 3-1234-5678</a></p>
+          <p><a href="mailto:reservations@yugen-tokyo.com">reservations@yugen-tokyo.com</a></p>
+        </div>
+
+        <div class="location-detail reveal stagger-5">
+          <h4>Follow</h4>
+          <div class="social-links">
+            <a href="#" class="social-link" aria-label="Instagram">
+              <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+            </a>
+            <a href="#" class="social-link" aria-label="X / Twitter">
+              <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </a>
+            <a href="#" class="social-link" aria-label="Facebook">
+              <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PRESS & ACCOLADES SECTION
+     ============================================================ -->
+<section class="press" id="press" aria-label="Press & Accolades">
+  <div class="press-header">
+    <div class="section-label reveal" style="justify-content:center;">Accolades</div>
+    <h2 class="section-title reveal stagger-1">In the <em>World's</em> Words</h2>
+  </div>
+
+  <div class="marquee-container" aria-hidden="true">
+    <div class="marquee-track">
+      <span class="marquee-item">Michelin Guide</span>
+      <span class="marquee-divider"></span>
+      <span class="marquee-item">World's 50 Best</span>
+      <span class="marquee-divider"></span>
+      <span class="marquee-item">The New York Times</span>
+      <span class="marquee-divider"></span>
+      <span class="marquee-item">Condé Nast Traveler</span>
+      <span class="marquee-divider"></span>
+      <span class="marquee-item">Eater</span>
+      <span class="marquee-divider"></span>
+      <span class="marquee-item">Bloomberg</span>
+      <span class="marquee-divider"></span>
+      <span class="marquee-item">Michelin Guide</span>
+      <span class="marquee-divider"></span>
+      <span class="marquee-item">World's 50 Best</span>
+      <span class="marquee-divider"></span>
+      <span class="marquee-item">The New York Times</span>
+      <span class="marquee-divider"></span>
+      <span class="marquee-item">Condé Nast Traveler</span>
+      <span class="marquee-divider"></span>
+      <span class="marquee-item">Eater</span>
+      <span class="marquee-divider"></span>
+      <span class="marquee-item">Bloomberg</span>
+      <span class="marquee-divider"></span>
+    </div>
+  </div>
+
+  <div class="press-quotes">
+    <div class="press-quote reveal stagger-1">
+      <blockquote>"The most transcendent dining experience in Asia."</blockquote>
+      <cite>— Michelin Guide</cite>
+    </div>
+    <div class="press-quote reveal stagger-2">
+      <blockquote>"YŪGEN doesn't serve food. It serves memories."</blockquote>
+      <cite>— Condé Nast Traveler</cite>
+    </div>
+    <div class="press-quote reveal stagger-3">
+      <blockquote>"A portal to the future of Japanese cuisine."</blockquote>
+      <cite>— The New York Times</cite>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="footer" id="footer" role="contentinfo">
+  <div class="footer-content">
+    <div class="footer-brand">
+      <a href="#hero" class="nav-logo" aria-label="YŪGEN home">
+        <svg class="nav-logo-mark" viewBox="0 0 200 200" aria-hidden="true">
+          <circle class="enso" cx="100" cy="100" r="65" stroke-width="2" fill="none" stroke-dasharray="370" stroke-dashoffset="30" />
+        </svg>
+        <div>
+          <div class="nav-logo-text">YŪGEN</div>
+          <div class="nav-logo-jp">幽玄</div>
+        </div>
+      </a>
+      <p>Three Michelin stars of neo-kaiseki artistry in the heart of Roppongi, Tokyo. Where tradition dissolves into the future.</p>
+    </div>
+
+    <div class="footer-nav">
+      <h4>Navigate</h4>
+      <div class="footer-nav-links">
+        <a href="#philosophy">Philosophy</a>
+        <a href="#experience">The Experience</a>
+        <a href="#chefs">Our Chefs</a>
+        <a href="#interior">The Space</a>
+        <a href="#drinks">Drinks & Sake</a>
+        <a href="#reservation">Reservations</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+
+    <div class="footer-newsletter">
+      <h4>Stay Connected</h4>
+      <p>"Receive whispers from YŪGEN"</p>
+      <form class="newsletter-form" onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('button').textContent='Subscribed ✓';">
+        <input type="email" placeholder="Your email address" aria-label="Email for newsletter" required>
+        <button type="submit">Subscribe</button>
+      </form>
+
+      <div class="social-links" style="margin-top: 24px;">
+        <a href="#" class="social-link" aria-label="Instagram">
+          <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+        </a>
+        <a href="#" class="social-link" aria-label="X / Twitter">
+          <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+        <a href="#" class="social-link" aria-label="Facebook">
+          <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>&copy; 2024 YŪGEN (幽玄). All rights reserved.</p>
+    <p class="footer-note">YŪGEN is a smoke-free establishment. Smart casual dress code required.</p>
+    <div class="footer-social">
+      <p style="font-size: 0.7rem; color: var(--silver-dark);">@yugen.tokyo</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ============================================================
+     JAVASCRIPT
+     ============================================================ -->
+<script>
+(function() {
+  'use strict';
+
+  /* ==========================================================
+     LOADING SCREEN
+     ========================================================== */
+  const loadingScreen = document.getElementById('loadingScreen');
+  const body = document.body;
+
+  window.addEventListener('load', function() {
+    setTimeout(function() {
+      loadingScreen.classList.add('hidden');
+      body.classList.remove('loading');
+    }, 3200);
+  });
+
+  // Fallback
+  setTimeout(function() {
+    loadingScreen.classList.add('hidden');
+    body.classList.remove('loading');
+  }, 5000);
+
+  /* ==========================================================
+     CUSTOM CURSOR
+     ========================================================== */
+  const cursorOuter = document.getElementById('cursorOuter');
+  const cursorInner = document.getElementById('cursorInner');
+  let mouseX = 0, mouseY = 0;
+  let outerX = 0, outerY = 0;
+  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+  if (!isTouchDevice) {
+    document.addEventListener('mousemove', function(e) {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+
+      cursorInner.style.left = mouseX + 'px';
+      cursorInner.style.top = mouseY + 'px';
+
+      if (!cursorOuter.classList.contains('visible')) {
+        cursorOuter.classList.add('visible');
+        cursorInner.classList.add('visible');
+      }
+    });
+
+    function animateCursor() {
+      outerX += (mouseX - outerX) * 0.12;
+      outerY += (mouseY - outerY) * 0.12;
+
+      cursorOuter.style.left = outerX + 'px';
+      cursorOuter.style.top = outerY + 'px';
+
+      requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+
+    // Hover detection
+    const hoverables = document.querySelectorAll('a, button, .toggle-switch, .checkbox-item, select, .dish-card, .interior-card, .chef-card, .social-link, input, textarea');
+
+    hoverables.forEach(function(el) {
+      el.addEventListener('mouseenter', function() {
+        cursorOuter.classList.add('active');
+        cursorInner.classList.add('active');
+      });
+      el.addEventListener('mouseleave', function() {
+        cursorOuter.classList.remove('active');
+        cursorInner.classList.remove('active');
+      });
+    });
+
+    document.addEventListener('mouseleave', function() {
+      cursorOuter.classList.remove('visible');
+      cursorInner.classList.remove('visible');
+    });
+
+    document.addEventListener('mouseenter', function() {
+      cursorOuter.classList.add('visible');
+      cursorInner.classList.add('visible');
+    });
+  }
+
+  /* ==========================================================
+     PARTICLE SYSTEM
+     ========================================================== */
+  const canvas = document.getElementById('particle-canvas');
+  const ctx = canvas.getContext('2d');
+  let particles = [];
+  const maxParticles = isTouchDevice ? 20 : 50;
+
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+
+  class Particle {
+    constructor() {
+      this.reset();
+    }
+
+    reset() {
+      this.x = Math.random() * canvas.width;
+      this.y = canvas.height + Math.random() * 200;
+      this.size = Math.random() * 1.8 + 0.3;
+      this.speedY = Math.random() * 0.4 + 0.1;
+      this.speedX = (Math.random() - 0.5) * 0.3;
+      this.opacity = Math.random() * 0.35 + 0.05;
+      this.life = 0;
+      this.maxLife = Math.random() * 600 + 400;
+    }
+
+    update() {
+      this.y -= this.speedY;
+      this.x += this.speedX;
+      this.life++;
+
+      if (this.life > this.maxLife * 0.8) {
+        this.opacity *= 0.98;
+      }
+
+      if (this.y < -20 || this.life > this.maxLife || this.opacity < 0.01) {
+        this.reset();
+      }
+    }
+
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(201, 168, 76, ' + this.opacity + ')';
+      ctx.fill();
+    }
+  }
+
+  for (let i = 0; i < maxParticles; i++) {
+    const p = new Particle();
+    p.y = Math.random() * canvas.height;
+    p.life = Math.random() * p.maxLife;
+    particles.push(p);
+  }
+
+  function animateParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    particles.forEach(function(p) {
+      p.update();
+      p.draw();
+    });
+
+    requestAnimationFrame(animateParticles);
+  }
+  animateParticles();
+
+  /* ==========================================================
+     NAVIGATION
+     ========================================================== */
+  const nav = document.getElementById('mainNav');
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const mobileLinks = mobileMenu.querySelectorAll('a');
+
+  window.addEventListener('scroll', function() {
+    if (window.scrollY > 80) {
+      nav.classList.add('scrolled');
+    } else {
+      nav.classList.remove('scrolled');
+    }
+  });
+
+  hamburger.addEventListener('click', function() {
+    const isActive = hamburger.classList.contains('active');
+    hamburger.classList.toggle('active');
+    mobileMenu.classList.toggle('active');
+    hamburger.setAttribute('aria-expanded', !isActive);
+    mobileMenu.setAttribute('aria-hidden', isActive);
+
+    if (!isActive) {
+      body.style.overflow = 'hidden';
+    } else {
+      body.style.overflow = '';
+    }
+  });
+
+  mobileLinks.forEach(function(link) {
+    link.addEventListener('click', function() {
+      hamburger.classList.remove('active');
+      mobileMenu.classList.remove('active');
+      hamburger.setAttribute('aria-expanded', 'false');
+      mobileMenu.setAttribute('aria-hidden', 'true');
+      body.style.overflow = '';
+    });
+  });
+
+  /* ==========================================================
+     INTERSECTION OBSERVER — SCROLL ANIMATIONS
+     ========================================================== */
+  const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale, .reveal-clip');
+
+  const revealObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  });
+
+  revealElements.forEach(function(el) {
+    revealObserver.observe(el);
+  });
+
+  /* ==========================================================
+     COUNTER ANIMATION
+     ========================================================== */
+  const statNumbers = document.querySelectorAll('.stat-number');
+
+  const counterObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        if (el.dataset.noAnimate) return;
+        if (el.dataset.animated) return;
+        el.dataset.animated = 'true';
+
+        const target = parseInt(el.dataset.target);
+        const suffix = el.dataset.suffix || '';
+        const duration = 2000;
+        const start = performance.now();
+
+        function updateCounter(now) {
+          const elapsed = now - start;
+          const progress = Math.min(elapsed / duration, 1);
+          // Ease out quart
+          const eased = 1 - Math.pow(1 - progress, 4);
+          const current = Math.round(eased * target);
+
+          el.textContent = current + suffix;
+
+          if (progress < 1) {
+            requestAnimationFrame(updateCounter);
+          } else {
+            el.textContent = target + suffix;
+          }
+        }
+
+        requestAnimationFrame(updateCounter);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  statNumbers.forEach(function(el) {
+    counterObserver.observe(el);
+  });
+
+  /* ==========================================================
+     HORIZONTAL SCROLL — MENU SECTION
+     ========================================================== */
+  const horizontalWrapper = document.getElementById('horizontalScrollWrapper');
+  const horizontalTrack = document.getElementById('horizontalTrack');
+  const isMobile = window.innerWidth <= 768;
+
+  if (!isMobile && horizontalWrapper && horizontalTrack) {
+    function updateHorizontalScroll() {
+      const rect = horizontalWrapper.getBoundingClientRect();
+      const wrapperHeight = horizontalWrapper.offsetHeight;
+      const viewportHeight = window.innerHeight;
+      const scrollableDistance = wrapperHeight - viewportHeight;
+
+      if (scrollableDistance <= 0) return;
+
+      const scrollProgress = Math.max(0, Math.min(-rect.top / scrollableDistance, 1));
+      const trackWidth = horizontalTrack.scrollWidth;
+      const viewportWidth = window.innerWidth;
+      const maxTranslate = trackWidth - viewportWidth + 96;
+
+      const translateX = scrollProgress * maxTranslate;
+      horizontalTrack.style.transform = 'translateX(-' + translateX + 'px)';
+    }
+
+    window.addEventListener('scroll', updateHorizontalScroll, { passive: true });
+    window.addEventListener('resize', function() {
+      if (window.innerWidth <= 768) {
+        horizontalTrack.style.transform = '';
+      }
+    });
+  }
+
+  /* ==========================================================
+     3D TILT EFFECT ON DISH CARDS
+     ========================================================== */
+  if (!isTouchDevice) {
+    const tiltCards = document.querySelectorAll('[data-tilt]');
+
+    tiltCards.forEach(function(card) {
+      const inner = card.querySelector('.dish-card-inner');
+
+      card.addEventListener('mousemove', function(e) {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = (y - centerY) / centerY * -6;
+        const rotateY = (x - centerX) / centerX * 6;
+
+        inner.style.transform = 'perspective(800px) rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg) scale(1.02)';
+      });
+
+      card.addEventListener('mouseleave', function() {
+        inner.style.transform = 'perspective(800px) rotateX(0) rotateY(0) scale(1)';
+      });
+    });
+  }
+
+  /* ==========================================================
+     PARALLAX EFFECT
+     ========================================================== */
+  if (!isTouchDevice) {
+    const parallaxElements = document.querySelectorAll('[data-parallax-speed]');
+
+    window.addEventListener('scroll', function() {
+      const scrollY = window.scrollY;
+
+      parallaxElements.forEach(function(el) {
+        const speed = parseFloat(el.dataset.parallaxSpeed);
+        el.style.transform = 'translateY(' + (scrollY * speed) + 'px)';
+      });
+    }, { passive: true });
+  }
+
+  /* ==========================================================
+     FORM HANDLING
+     ========================================================== */
+  const reservationForm = document.getElementById('reservationForm');
+  const reservationSuccess = document.getElementById('reservationSuccess');
+
+  // Toggle switch
+  const sakePairingToggle = document.getElementById('sakePairingToggle');
+  sakePairingToggle.addEventListener('click', function() {
+    this.classList.toggle('active');
+    const isActive = this.classList.contains('active');
+    this.setAttribute('aria-checked', isActive);
+  });
+
+  sakePairingToggle.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      this.click();
+    }
+  });
+
+  // Checkbox items
+  const checkboxItems = document.querySelectorAll('.checkbox-item');
+  checkboxItems.forEach(function(item) {
+    item.addEventListener('click', function() {
+      this.classList.toggle('checked');
+    });
+  });
+
+  // Form validation
+  function validateField(input, errorId) {
+    const errorEl = document.getElementById(errorId);
+    let isValid = true;
+
+    if (input.required && !input.value.trim()) {
+      isValid = false;
+    }
+
+    if (input.type === 'email' && input.value) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(input.value)) {
+        isValid = false;
+      }
+    }
+
+    if (!isValid) {
+      input.classList.add('error');
+      if (errorEl) errorEl.classList.add('show');
+    } else {
+      input.classList.remove('error');
+      if (errorEl) errorEl.classList.remove('show');
+    }
+
+    return isValid;
+  }
+
+  reservationForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const fields = [
+      { input: document.getElementById('resName'), error: 'resNameError' },
+      { input: document.getElementById('resEmail'), error: 'resEmailError' },
+      { input: document.getElementById('resPhone'), error: 'resPhoneError' },
+      { input: document.getElementById('resDate'), error: 'resDateError' },
+      { input: document.getElementById('resTime'), error: 'resTimeError' },
+      { input: document.getElementById('resGuests'), error: 'resGuestsError' }
+    ];
+
+    let allValid = true;
+
+    fields.forEach(function(field) {
+      if (!validateField(field.input, field.error)) {
+        allValid = false;
+      }
+    });
+
+    if (allValid) {
+      reservationForm.style.display = 'none';
+      reservationSuccess.classList.add('show');
+
+      // Scroll to success message
+      reservationSuccess.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  });
+
+  // Real-time validation on blur
+  const formInputs = reservationForm.querySelectorAll('.form-input[required]');
+  formInputs.forEach(function(input) {
+    const errorId = input.id + 'Error';
+    input.addEventListener('blur', function() {
+      if (input.value.trim()) {
+        validateField(input, errorId);
+      }
+    });
+
+    input.addEventListener('input', function() {
+      if (input.classList.contains('error')) {
+        validateField(input, errorId);
+      }
+    });
+  });
+
+  // Set minimum date to today
+  const dateInput = document.getElementById('resDate');
+  const today = new Date();
+  const yyyy = today.getFullYear();
+  const mm = String(today.getMonth() + 1).padStart(2, '0');
+  const dd = String(today.getDate() + 1).padStart(2, '0');
+  dateInput.setAttribute('min', yyyy + '-' + mm + '-' + dd);
+
+  /* ==========================================================
+     KINETIC TYPOGRAPHY — LETTER-BY-LETTER ANIMATION
+     ========================================================== */
+  const splitTextElements = document.querySelectorAll('.split-text');
+
+  splitTextElements.forEach(function(el) {
+    const text = el.textContent;
+    el.textContent = '';
+    el.setAttribute('aria-label', text);
+
+    for (let i = 0; i < text.length; i++) {
+      const charSpan = document.createElement('span');
+      charSpan.classList.add('char');
+      charSpan.style.transitionDelay = (i * 0.03) + 's';
+      charSpan.textContent = text[i] === ' ' ? '\u00A0' : text[i];
+      el.appendChild(charSpan);
+    }
+  });
+
+  const splitTextObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.3 });
+
+  splitTextElements.forEach(function(el) {
+    splitTextObserver.observe(el);
+  });
+
+  /* ==========================================================
+     SMOOTH SCROLL FOR ANCHOR LINKS
+     ========================================================== */
+  document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+    anchor.addEventListener('click', function(e) {
+      const targetId = this.getAttribute('href');
+      if (targetId === '#') return;
+
+      const target = document.querySelector(targetId);
+      if (target) {
+        e.preventDefault();
+        const offsetTop = target.offsetTop - 80;
+        window.scrollTo({
+          top: offsetTop,
+          behavior: 'smooth'
+        });
+      }
+    });
+  });
+
+  /* ==========================================================
+     INTERIOR CARDS — PARALLAX DEPTH ON SCROLL
+     ========================================================== */
+  if (!isTouchDevice) {
+    const interiorCards = document.querySelectorAll('.interior-card');
+
+    window.addEventListener('scroll', function() {
+      interiorCards.forEach(function(card, index) {
+        const rect = card.getBoundingClientRect();
+        const centerY = rect.top + rect.height / 2;
+        const viewCenter = window.innerHeight / 2;
+        const distance = (centerY - viewCenter) / window.innerHeight;
+        const translateY = distance * (8 + index * 3);
+
+        const img = card.querySelector('.interior-card-image');
+        if (img) {
+          img.style.transform = 'translateY(' + translateY + 'px)';
+        }
+      });
+    }, { passive: true });
+  }
+
+  /* ==========================================================
+     WINDOW RESIZE HANDLER
+     ========================================================== */
+  let resizeTimeout;
+  window.addEventListener('resize', function() {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(function() {
+      resizeCanvas();
+    }, 200);
+  });
+
+})();
+</script>
+</body>
+</html>
